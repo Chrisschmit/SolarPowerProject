@@ -46,7 +46,7 @@ with st.container():
         NODATA_VALUE = -999
 
         # Load data as 2d array
-        data = np.loadtxt("radiationProject/grids_germany_annual_radiation_global_2022.asc", skiprows=28)
+        data = np.loadtxt("/Users/magic-rabbit/Documents/Genistat/SolarPowerProject/SolarPowerProject/grids_germany_annual_radiation_global_2022.asc", skiprows=28)
         data[data == -999] = np.nan
 
         for row in range(NROWS):

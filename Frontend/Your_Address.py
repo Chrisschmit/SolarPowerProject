@@ -52,12 +52,15 @@ def getImagesBackend(latitude, longitude):
     image = np.expand_dims(image, axis=0)
     # gt = cv2.imread(gt_path, 0)
 
+    #Predict segments
     segment_mask = segment_model.predict(image)
     segment_vector = np.argmax(segment_mask.squeeze(), axis=2)
 
+    #Predict superstructures
     super_mask = superstructures_model.predict(image)
     super_vector = np.argmax(super_mask.squeeze(), axis=2)
-
+    
+    #Merge the masks vor visualitzations
     super_vector_updated = super_vector + n_classes_segment
     background_class = n_classes_segment + n_classes_superstructures - 1
     merged_vector = super_vector_updated
@@ -128,8 +131,8 @@ with st.container():
     # Left column content
     with col1:
         # Set the coordinates for the map
-        latitude = 37.57749
-        longitude = -122.4194
+        latitude = 48.1464704
+        longitude = 11.5602018
 
         # Initialize the Google Maps client
         gmaps = googlemaps.Client(key=config.API_KEY)
@@ -155,6 +158,7 @@ with st.container():
             <iframe class="map-frame" width="100%" height="500px"  src="https://maps.google.com/maps?q={latitude},{longitude}&t=k&output=embed"></iframe>
         </div>
         """
+
         # Display the HTML iframe using the st.components.v1.html function
         # st.components.v1.html(html_string)
         st.components.v1.html(html_string, height=500)
@@ -162,6 +166,8 @@ with st.container():
 
     # Right column content
     with col2:
+        
+        #Future calculate your house 
         st.subheader("Information about your location")
         location = "Sample Location"
         roof_size = 100
